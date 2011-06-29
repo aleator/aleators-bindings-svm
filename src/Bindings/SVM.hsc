@@ -109,4 +109,4 @@ module Bindings.SVM where
 #ccall svm_check_probability_model , Ptr <svm_model> -> IO CInt
 
 -- printing
-#ccall svm_set_print_string_function , FunPtr (CString -> IO ())
+#ccall svm_set_print_string_function , FunPtr (CString -> IO ()) -> IO ()
