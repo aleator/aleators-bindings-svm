@@ -2061,6 +2061,26 @@ svm_model *svm_train(const svm_problem *prob, const svm_parameter *param)
 	svm_model *model = Malloc(svm_model,1);
 	model->param = *param;
 	model->free_sv = 0;	// XXX
+    for (int j=0; j<prob->l; j++) {
+        printf("Vector %d:\n",j);
+        const svm_node *n = prob->x[j]; 
+        while (n->index>0) {
+            printf("(%d,%f)-", n->index, n->value); 
+            n++;
+            printf("[%d,%f]\n", n->index, n->value); 
+            fflush(stdout); }
+        printf("\nend vector %d\n",j); }
+
+    // Debug -- display what values svm_train actually saw.
+	//for(int i=0; i<prob->l; i++) {
+    //    printf("Vector %d",i);
+    //    svm_node *n = prob->x[i];
+    //    while (n->index >=0) {
+    //        printf("(%d,%f) ", n->index, n->value);
+    //        n++;
+    //        } printf("\n");
+    //}
+    // End debug
 
 	if(param->svm_type == ONE_CLASS ||
 	   param->svm_type == EPSILON_SVR ||
@@ -2518,6 +2538,14 @@ double svm_predict(const svm_model *model, const svm_node *x)
 {
 	int nr_class = model->nr_class;
 	double *dec_values;
+    // Debug -- display what values svm_train actually saw.
+    const svm_node* n = x;
+    // while (n->index>0) {
+    //     printf("(%d,%f)\n", n->index, n->value); fflush(stdout); n++; }
+    // printf("\npredict\n"); 
+    
+    // End debug
+
 	if(model->param.svm_type == ONE_CLASS ||
 	   model->param.svm_type == EPSILON_SVR ||
 	   model->param.svm_type == NU_SVR)
