@@ -1,8 +1,12 @@
 name:                bindings-svm
-version:             0.2.0
+version:             0.2.1
 synopsis:            Low level bindings to libsvm.
 description:
   Low level bindings to libsvm <http://www.csie.ntu.edu.tw/~cjlin/libsvm/>.
+  .
+  Changes in version 0.2.1
+  .
+  * Exposed `svm_model` internals
   .
   Changes in version 0.2.0
   .

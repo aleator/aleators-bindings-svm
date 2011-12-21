@@ -74,7 +74,34 @@ module Bindings.SVM where
 #stoptype
 
 -- svm_model
-#opaque_t svm_model
+#starttype struct svm_model
+-- parameter
+#field param, <svm_parameter>	 
+-- number of classes, = 2 in regression/one class svm #
+#field nr_class, CInt 
+-- total #SV
+#field l, CInt 
+-- SVs (SV[l]) 
+#field SV, Ptr (Ptr <svm_node>) 
+-- coefficients for SVs in decision functions (sv_coef[k-1][l])
+#field sv_coef, Ptr (Ptr CDouble)  
+-- constants in decision functions (rho[k*(k-1)/2]) 
+#field rho, Ptr CDouble	
+-- pariwise probability information 
+#field probA, Ptr CDouble   
+#field probB, Ptr CDouble
+ 
+-- for classification only 
+
+-- label of each class (label[k]) 
+#field label, Ptr CInt 
+--  number of SVs for each class (nSV[k]) 
+--  nSV[0] + nSV[1] + ... + nSV[k-1] = l 
+#field nSV, Ptr CInt   
+-- if svm_model is created by svm_load_model
+-- 0 if svm_model is created by svm_train
+#field free_sv, CInt     
+#stoptype
 
 -- training
 #ccall svm_train , Ptr <svm_problem> -> Ptr <svm_parameter> -> IO (Ptr <svm_model>)
